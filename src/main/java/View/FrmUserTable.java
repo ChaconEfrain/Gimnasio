@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -101,11 +103,14 @@ public class FrmUserTable extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_datos);
 
+        txt_ID.setEditable(false);
         txt_ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_IDActionPerformed(evt);
             }
         });
+
+        txt_name.setEditable(false);
 
         jLabel1.setText("ID");
 
@@ -113,6 +118,11 @@ public class FrmUserTable extends javax.swing.JFrame {
 
         btn_editar.setText("Editar");
         btn_editar.setEnabled(false);
+        btn_editar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_editarMouseClicked(evt);
+            }
+        });
         btn_editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_editarActionPerformed(evt);
@@ -121,6 +131,11 @@ public class FrmUserTable extends javax.swing.JFrame {
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setEnabled(false);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         btn_agregar.setText("Agregar");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -198,11 +213,11 @@ public class FrmUserTable extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_IDActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-        FrmUser user = new FrmUser();
-        user.setVisible(true);
-        String id = txt_ID.getText();
-        user.txt_id.setText(id);
-        this.setVisible(false);
+//        FrmUser user = new FrmUser();
+//        user.setVisible(true);
+//        String id = txt_ID.getText();
+//        user.txt_id.setText(id);
+//        this.setVisible(false);
     }//GEN-LAST:event_btn_editarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
@@ -210,6 +225,42 @@ public class FrmUserTable extends javax.swing.JFrame {
         user.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_editarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_editarMouseClicked
+        
+        FrmUser user = new FrmUser();
+        user.setVisible(true);
+        String id = txt_ID.getText();
+        user.txt_id.setText(id);
+        int seleccionar = tbl_datos.rowAtPoint(evt.getPoint());
+        String name = String.valueOf(tbl_datos.getValueAt(seleccionar, 1));
+        user.txt_nombre.setText(name);
+        String lastName = String.valueOf(tbl_datos.getValueAt(seleccionar, 2));
+        user.txt_apellido.setText(lastName);
+        String userBirthdate = String.valueOf(tbl_datos.getValueAt(seleccionar, 3));
+        user.dt_fechaDeNacimiento.setDateFormatString(userBirthdate);
+        String info = String.valueOf(tbl_datos.getValueAt(seleccionar, 4));
+        user.txt_informacion.setText(info);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_editarMouseClicked
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        user delete = new user();
+        userModel deleteModel = new userModel();
+        int id = Integer.parseInt(txt_ID.getText());
+        deleteModel.setId(id);
+        try {
+            delete.delete(deleteModel);
+            tableFill();
+            txt_ID.setText("");
+            txt_name.setText("");
+            btn_editar.setEnabled(false);
+            btn_eliminar.setEnabled(false);
+            btn_agregar.setEnabled(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmUserTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments

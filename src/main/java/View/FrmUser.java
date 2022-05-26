@@ -192,7 +192,7 @@ public class FrmUser extends javax.swing.JFrame {
         String informacion = txt_informacion.getText();
         model.setInfoExtra(informacion);
         char[] pass = txt_pass.getPassword();
-        String str = new String();
+        String str = new String(pass);
         model.setPassword(str);
         user controller = new user();
         try {
@@ -205,6 +205,8 @@ public class FrmUser extends javax.swing.JFrame {
                 controller.update(model);
                 this.setVisible(false);
             }
+            FrmUserTable userTable = new FrmUserTable();
+            userTable.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(FrmUser.class.getName()).log(Level.SEVERE, null, ex);
         }  
@@ -256,8 +258,8 @@ public class FrmUser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
-    private javax.swing.JComboBox<String> cb_tipoDeUsuario;
-    private com.toedter.calendar.JDateChooser dt_fechaDeNacimiento;
+    public static javax.swing.JComboBox<String> cb_tipoDeUsuario;
+    public static com.toedter.calendar.JDateChooser dt_fechaDeNacimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -266,10 +268,10 @@ public class FrmUser extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_informacion;
     private javax.swing.JLabel lbl_pass;
     private javax.swing.JLabel lbl_tipoDeUsuario;
-    private javax.swing.JTextField txt_apellido;
+    public static javax.swing.JTextField txt_apellido;
     public static javax.swing.JTextField txt_id;
-    private javax.swing.JTextArea txt_informacion;
-    private javax.swing.JTextField txt_nombre;
+    public static javax.swing.JTextArea txt_informacion;
+    public static javax.swing.JTextField txt_nombre;
     private javax.swing.JPasswordField txt_pass;
     // End of variables declaration//GEN-END:variables
 }

@@ -85,13 +85,29 @@ public class user {
     public void update(userModel user_Model) throws SQLException{
         Connection conn = conexion.getConexion();
         
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String date = formatter.format(user_Model.getFechaNacimiento());
         PreparedStatement stm = null;
-        String query = "UPDATE USERS SET INFO = '"+user_Model.getInfoExtra()+"' WHERE ID = '"+user_Model.getId()+"'";
+        String query = "UPDATE USERS SET USER_NAME = '"+user_Model.getName()+"', USER_LASTNAME = '"+user_Model.getApellido()+"', USER_BIRTHDATE = '"+date+"', INFO = '"+user_Model.getInfoExtra()+"' WHERE ID = '"+user_Model.getId()+"';";
         
         try{
             stm = conn.prepareStatement(query);
             stm.executeUpdate();
             System.out.println("Se ha actualizado la información del usuario");
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void delete(userModel user_model) throws SQLException{
+        Connection conn = conexion.getConexion();
+       
+        PreparedStatement stm = null;
+        String query = "DELETE FROM USERS WHERE ID = '"+user_model.getId()+"'";
+        
+        try{
+            stm = conn.prepareStatement(query);
+            stm.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
         }
